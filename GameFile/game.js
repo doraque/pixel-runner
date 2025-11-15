@@ -20,11 +20,16 @@
     ctx.fillStyle='#2a3b66'; ctx.fillRect(0,332,canvas.width,4);
     ctx.fillStyle='#7bd8ff'; ctx.fillRect(hero.x, hero.y, hero.w, hero.h);
   }
+  let paused = false;
   function loop(now=performance.now()){
     const dt = Math.min(0.033,(now-last)/1000); last = now;
-    update(dt); draw(); requestAnimationFrame(loop);
+    if (!paused) { 
+      update(dt); 
+    }
+    draw();
+    requestAnimationFrame(loop);
   }
-
+  window.addEventListener('keydown', e => { if (e.key.toLowerCase()==='p') paused=!paused; }); 
   window.addEventListener('keydown', e => keys.add(e.code==='Space'?'Space':e.key));
   window.addEventListener('keyup',   e => keys.delete(e.code==='Space'?'Space':e.key));
   loop();
